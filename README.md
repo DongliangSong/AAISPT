@@ -14,10 +14,12 @@ A pretrained model integrating an adaptive projection layer with a Transformer e
 By incorporating a fine-tuning strategy, the pretrained model can be efficiently transferred to diverse downstream biological systems, significantly reducing the need for large amounts of labeled data while maintaining high accuracy and adaptability.
 
 # Installation  
+## Clone this repo
 git clone https://github.com/DongliangSong/AAISPT.git  
-cd AAISPT
+cd AAISPT  
 
-pip install -r requirements.txt  
+## Install dependencies:  
+pip install -r requirements.txt   
 
 ## Make sure the following core libraries are installed:  
 h5py==3.11.0  
