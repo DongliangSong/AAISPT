@@ -1,62 +1,52 @@
-clc;   clear
+clc;
+clear;
 
-path = 'D:\TrajSeg-Cls\Exp Data\YanYu\Results\data';
-Circling = fullfile(path, 'circling');
-Confined_circling = fullfile(path,'confined_circling');
-Confined = fullfile(path,'confined');
-Rocking = fullfile(path,'rocking');
-Diffusion = fullfile(path,'diffusion');
-None = fullfile(path,'none');
-Other = fullfile(path,'other');
+rootpath = 'D:\TrajSeg-Cls\Exp Data\YanYu\Results\data';
+categoryFolders = {'Circling', 'Confined_circling', 'Confined', 'Rocking', ...
+                  'Diffusion', 'None', 'Other'};
 
-if ~exist("Circling",'dir');   mkdir(Circling);  end
-if ~exist("Confined_circling",'dir');  mkdir(Confined_circling);  end
-if ~exist("Confined",'dir');   mkdir(Confined);  end
-if ~exist("Rocking",'dir');  mkdir(Rocking);  end
-if ~exist("Diffusion",'dir');  mkdir(Diffusion);  end
-if ~exist("None",'dir');   mkdir(None);   end
-if ~exist("Other",'dir');   mkdir(Other);   end
+% Create target folders
+for i = 1:length(categoryFolders)
+    folderPath = fullfile(rootPath, categoryFolders{i});
+    if ~exist(folderPath, 'dir')
+        mkdir(folderPath);
+        fprintf('Created folder: %s at %s\n', folderPath, datestr(now, 'yyyy-mm-dd HH:MM:SS'));
+    end
+end
 
 % Load data and label
-root = dir(fullfile('D:\TrajSeg-Cls\Exp Data\YanYu\Results','*.csv'));
+dataRoot = 'D:\TrajSeg-Cls\Exp Data\YanYu\Results';
+csvFiles = dir(fullfile(dataRoot,'*.csv'));
+label = readtable(fullfile(dataRoot,'label','label_config.csv'));
 
-label = readtable('D:\TrajSeg-Cls\Exp Data\YanYu\Results\label\label_config.csv');
+% Define the mapping between labels and folders
+labelMap = containers.Map(...
+    {1, 2, 3, 4, 5, 6, 7}, ...
+    categoryFolders);
 
-nums = length(root);
-for i = 1:nums
-    filename = fullfile(root(i).folder,root(i).name);
-    [~, name, ext] = fileparts(filename);
+% Process each CSV file
+numFiles = length(csvFiles);
+for i = 1:numFiles
+    % Get the filename and full path
+    filePath = fullfile(csvFiles(i).folder, csvFiles(i).name);
+    [~, fileName, fileExt] = fileparts(filePath);
 
-    IndexC = strfind(label.Name,name);
-    Index = find(~(cellfun('isempty', IndexC))); 
-    
-    ind = label.Label(Index);
-    % 1 for 'Circling'
-    % 2 for 'Confined'
-    % 3 'Confined_circling'
-    % 4 'Diffusion'
-    % 5 'None'
-    % 6 'Other'
-    % 7 'Rocking'
-
-    if ind==1
-        target = Circling;
-    elseif ind==2
-        target = Confined;
-    elseif ind == 3
-        target = Confined_circling;
-    elseif ind == 4
-        target = Diffusion;
-    elseif ind == 5
-        target = None;
-    elseif ind == 6
-        target = Other;
-    elseif ind == 7
-        target = Rocking;
+    % Find the corresponding label
+    matchIdx = strcmp(label.Name, fileName);
+    if sum(matchIdx) == 1
+        labelIdx = label.Label(matchIdx);
+        if isKey(labelMap, labelIdx)
+            targetFolder = fullfile(rootPath, labelMap(labelIdx));
+            
+            % Copy the file to the target folder
+            copyfile(filePath, fullfile(targetFolder, [fileName, fileExt]));
+            fprintf('Copied %s to %s at %s\n', [fileName, fileExt], targetFolder, datestr(now, 'yyyy-mm-dd HH:MM:SS'));
+        else
+            warning('No mapping found for label %d in file %s', labelIdx, fileName);
+        end
+    else
+        warning('No unique match found for file %s in label table', fileName);
     end
-    
-    % Copy source data to target group
-    copyfile(filename,fullfile(target,[name,ext]));
 end
 
 

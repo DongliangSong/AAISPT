@@ -1,7 +1,6 @@
 clc;  clear
 
 % The missing values in the data are processed using linear interpolation.
-
 path = dir('D:\TrajSeg-Cls\endoysis\Enhanced\*.xlsx');
 
 for i = 1:length(path)

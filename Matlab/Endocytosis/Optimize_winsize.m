@@ -16,7 +16,6 @@ minlen = 5;
 maxlen = floor(length(temp) * 0.05);         
 randlen = randi([minlen,maxlen]);
 
-% 将非缺失值数据随机选择一部分作为缺失值
 maxstart = length(temp) - randlen + 1;
 randstart = randi([1, maxstart]);
 temp(randstart:(randstart + randlen - 1),:) = NaN;
@@ -39,4 +38,3 @@ end
 % Fill using optimal window length
 data_filled = fillmissing(data, 'movmedian', best_window_length);
 
-% 结论：移动平均填充方法的窗口长度大于（约等于）缺失值长度，

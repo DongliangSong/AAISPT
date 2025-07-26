@@ -8,14 +8,14 @@ if ~exist('savepath','dir')
 end
 
 
-% 提取xyzap轨迹
+% Extract xyzap trajectory
 recursiveExtract(path,savepath,'xyzap.xlsx',[]);
 
-% 提取xyap轨迹
+% Extract xyap trajectory
 recursiveExtract(path,savepath,'xyap.xlsx',[]);
 
-% 提取xyz轨迹
+% Extract xyz trajectory
 recursiveExtract(path,savepath,'xyz.xlsx',[]);
 
-% 提取xy轨迹
+% Extract xy trajectory
 recursiveExtract(path,savepath,'xy.xlsx',[]);

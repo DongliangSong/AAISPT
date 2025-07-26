@@ -25,14 +25,14 @@ for i = 1:length(unique_values)
 end
 
 for i = 1:length(first_indices)-1
-    segs(:,2:3) = data(first_indices(i,1):first_indices(i+1,1)-1,3:4);
-    segs(:,1) = 1:size(segs,1);
+    segs(:,2:3) = data(first_indices(i,1):first_indices(i+1,1)-1, 3:4);
+    segs(:,1) = 1:size(segs, 1);
     writematrix(segs,fullfile(folder,[num2str(i) '.csv']));
     clear segs;
 end
 
-segs(:,2:3) = data(first_indices(end,1):end,3:4);
-segs(:,1) = 1:size(segs,1);
+segs(:,2:3) = data(first_indices(end,1):end, 3:4);
+segs(:,1) = 1:size(segs, 1);
 writematrix(segs,fullfile(folder,[num2str(length(first_indices)) '.csv']));
 
 
@@ -49,4 +49,4 @@ for i = 1:num_file
     data{1,i} = table2array(readtable(fullfile(files(i).folder,files(i).name)));
 end
 
-save(fullfile(savepath,'tracks.mat'),"data");
+save(fullfile(savepath,'tracks.mat'), 'data');

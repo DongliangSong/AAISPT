@@ -1,18 +1,23 @@
 clc;  clear
 
+root = 'D:\TrajSeg-Cls\Exp Data\YanYu\Results';
+
 % Create labels based on the groups divided in the img folder
-path = dir(fullfile('D:\TrajSeg-Cls\Exp Data\YanYu\Results','*.csv'));
-savepath = 'D:\TrajSeg-Cls\Exp Data\YanYu\Results\label';
+path = dir(fullfile(root, '*.csv'));
+savepath = fullfile(root, 'label');
+if ~exist(savepath, 'dir')
+    mkdir(savepath);
+end
 
 nums = length(path);
 names = {};
 for i = 1:nums
-    filename = fullfile(path(i).folder,path(i).name);
-    [filepath,name,ext] = fileparts(filename);
-    names{i,1} = name;
+    filename = fullfile(path(i).folder, path(i).name);
+    [filepath, name, ext] = fileparts(filename);
+    names{i, 1} = name;
 end
 
-img_path = dir('D:\TrajSeg-Cls\Exp Data\YanYu\Results\img2');
+img_path = dir(fullfile(root, 'img2'));
 img_path = img_path(~ismember({img_path.name}, {'.', '..'}));
 % 1 for 'Circling'
 % 2 for 'Confined'
@@ -25,16 +30,16 @@ img_path = img_path(~ismember({img_path.name}, {'.', '..'}));
 T = table([], [], [], 'VariableNames', {'Name', 'Index','Label'});
 num_group = length(img_path);
 for i = 1:num_group
-    imageFiles = dir(fullfile(img_path(i).folder,img_path(i).name,'*.png'));
+    imageFiles = dir(fullfile(img_path(i).folder, img_path(i).name,'*.png'));
 
     for k = 1:length(imageFiles)
         [~, fileName, ~] = fileparts(imageFiles(k).name);
         name = names(str2double(fileName),1);
-        Table = table(name, cellstr(fileName),i,'VariableNames', {'Name', 'Index','Label'});
+        Table = table(name, cellstr(fileName), i, 'VariableNames', {'Name', 'Index','Label'});
         T = [T; Table];
     end
 end
 
-writetable(T,fullfile(savepath,'label_config.csv'));
+writetable(T, fullfile(savepath,'label_config.csv'));
 
 

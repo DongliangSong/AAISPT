@@ -12,9 +12,9 @@ convertTrack2mat(files)
 
 function convertTrack2mat(path)
 
-filename = strsplit(path,'.');
+filename = strsplit(path, '.');
 data = xlsread(path);
-ind = data(:,1);
+ind = data(:, 1);
 unique_values = unique(ind);
 first_indices = zeros(size(unique_values));
 
@@ -23,14 +23,14 @@ for i = 1:length(unique_values)
 end
 
 if length(unique_values) == 1
-    segs = data(:,3:4);
+    segs = data(:, 3:4);
 else
     segs = {};
     for i = 1:length(first_indices)-1
-        segs{i} = data(first_indices(i,1):first_indices(i+1,1)-1,3:4);
+        segs{i} = data(first_indices(i,1):first_indices(i+1,1)-1, 3:4);
     end
-    segs{end+1} = data(first_indices(end,1):end,3:4);
+    segs{end+1} = data(first_indices(end,1):end, 3:4);
 end
 
-save([filename{1,1},'.mat'],"segs");
+save([filename{1,1}, '.mat'], "segs");
 end

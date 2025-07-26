@@ -6,12 +6,12 @@ t = t';
 dis = sqrt((xyz(:,1) - xyz(1,1)).^2+ (xyz(:,2) - xyz(1,2)).^2+ (xyz(:,3) - xyz(1,3)).^2);
 
 %%
-% 反推 logit
+% Reverse the logit
 eps = 1e-8;
 prob = min(max(prob, eps), 1 - eps);
 logit = log(prob ./ (1 - prob));
 
-% 温度缩放
+% Temperature scaling
 figure
 for i = 1:20
     prob_T(i,:) = 1 ./ (1 + exp(-logit ./ (i * 0.4)));
@@ -20,17 +20,17 @@ for i = 1:20
 end
 legend(arrayfun(@(i) sprintf('Line %d', i), 1:20, 'UniformOutput', false));
 
-%%  合并轨迹
+%%  Merge trajectories
 loc = CPs;
-th = 3000;
+threshold = 3000;  % Distance threshold between two adjacent switching points
 N = length(loc);
-filtered_points = loc(1);  % 保留第一个点
+filtered_points = loc(1);  % Retain the first point
 last_kept = loc(1);
 
 for i = 2:N
-    if loc(i) - last_kept >= th
+    if loc(i) - last_kept >= threshold
         filtered_points(end+1) = loc(i);
-        last_kept = loc(i);  % 更新最近保留的点
+        last_kept = loc(i);  % Update the most recently retained point
     end
 end
 N = length(filtered_points) - 1;
@@ -55,11 +55,11 @@ for i = 1:N
 end
 hold off;
 
-% 设置字体和全局属性
+% Set font and global properties
 set(gca, 'FontName', 'Arial', 'FontSize', 14, 'LineWidth', 2);
 set(gcf, 'Color', 'w');
 
-%% 进行拟合，得到D和alpha
+%% Perform fitting to obtain D and alpha
 cp = filtered_points;
 seg = {};
 seg{1} = xyz(1:cp(1), :);
@@ -124,14 +124,14 @@ for i = 1:length(seg)
     new_alpha= [new_alpha; repmat(alpha(i),num,1)];
 end
 
-%% 绘图
+%% Plot
 eff_len = length(new_alpha);
 time = t(total_len - eff_len + 1:end);
 time = time';
 
 cp = [1, cp, 70688];  % for 3A-D
 
-% 绘制双Y轴 D vs displacement
+% Plot dual Y-axes: D and displacement
 figure
 yyaxis right
 plot(time, dis,'LineWidth', 2);
@@ -156,12 +156,12 @@ for i = 1:N
 end
 hold off;
 
-% 设置字体和全局属性
+% Set font and global properties
 set(gca, 'FontName', 'Arial', 'FontSize', 14, 'LineWidth', 2);
 set(gcf, 'Color', 'w');
 
 %% 
-% 绘制双Y轴 NEW_ALPHA vs displacement
+% Plot dual Y-axes: alpha vs displacement
 figure
 yyaxis right
 plot(time, dis,'LineWidth', 2);
@@ -186,11 +186,11 @@ for i = 1:N
 end
 hold off;
 
-% 设置字体和全局属性
+% Set font and global properties
 set(gca, 'FontName', 'Arial', 'FontSize', 14, 'LineWidth', 2);
 set(gcf, 'Color', 'w');
 
-%% 绘制三维轨迹
+%% Plot 3D trajectory
 colors = turbo(length(cp));
 
 lineWidth = 1;
@@ -220,13 +220,13 @@ caxis([1 length(cp)])
 axis tight;
 view(3);
 
-%% 绘制三维轨迹，根据扩散系数上色
-% 创建 colormap 映射
+%% Plot 3D trajectory, colored by diffusion coefficient
+% Create colormap mapping
 cmap = turbo(256); 
 cmin = min(D);
 cmax = max(D);
 
-% 映射D到颜色索引
+% Map D to color index
 color_idx = round(1 + (D - cmin) / (cmax - cmin) * (size(cmap,1) - 1));
 color_idx = max(min(color_idx, size(cmap,1)), 1);
 
