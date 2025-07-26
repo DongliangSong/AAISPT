@@ -1,0 +1,20 @@
+
+step 1:
+Endocytosis_merge.m    将各个子文件夹中数据合并到指定文件夹
+
+step 2:
+Endocytosis_enhance.m  通过维度分割进行初步扩增
+
+step 3:
+Endocytosis_processing.m   数据处理，删除空列，并填充缺失值
+
+step 4:
+Filling.m  
+填充缺失值NaN
+
+step 5:
+Transform_polar.m  对polar angle进行变换，转至[0, 90]范围
+
+Addition：
+Optimize_winsize.m 优化填充滑动窗口尺寸值，用作SI
+Plot_trace.m  绘制所有轨迹
