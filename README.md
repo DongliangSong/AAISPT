@@ -15,6 +15,8 @@ By incorporating a fine-tuning strategy, the pretrained model can be efficiently
 
 # Installation  
 git clone https://github.com/DongliangSong/AAISPT.git  
+cd AAISPT
+
 pip install -r requirements.txt  
 
 ## Make sure the following core libraries are installed:  
