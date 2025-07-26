@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66099acf-70a5-46ee-9567-e127cf4cd1f3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Tools/src/main/java/org/example/del_files.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Tools/src/main/java/org/example/del_files.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/Gen_3Dtrace_cls_varlen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/Gen_5Dtrace_cls_varlen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/Gen_5Dtrace_seg.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Gen_trace/Gen_5Dtrace_seg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/Gen_trace_cls_varlen.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Gen_trace/Gen_trace_cls_varlen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/Gen_trace_seg.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Gen_trace/Gen_trace_seg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gen_trace/read_traces.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Gen_trace/read_traces.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/biomedical_imaging/ij/trajectory_classifier/help/GenerateTrainingSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/biomedical_imaging/ij/trajectory_classifier/help/GenerateTrainingSet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +42,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../../Maven/apache-maven-3.6.3" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../Maven/apache-maven-3.6.3" />
         <option name="useMavenConfig" value="true" />
         <option name="userSettingsFile" value="C:\Users\songn\.m2\settings.xml" />
       </MavenGeneralSettings>
@@ -62,18 +67,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Java/ij-trajectory-classifier&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "D:/PythonCode/AAISPT/ij-trajectory-classifier",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Java\MicroController\src" />
@@ -85,18 +90,18 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.test">
-    <configuration name="Finder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.imagePro.Finder" />
-      <module name="controller" />
+  <component name="RunManager" selected="Application.GenerateTrainingSet">
+    <configuration name="GenerateTrainingSet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.biomedical_imaging.ij.trajectory_classifier.help.GenerateTrainingSet" />
+      <module name="ij_trajectory_classifier" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.imagePro.*" />
+          <option name="PATTERN" value="de.biomedical_imaging.ij.trajectory_classifier.help.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="MakeNoErrorCheck" enabled="true" />
       </method>
     </configuration>
     <configuration name="MathM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -156,19 +161,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.GenerateTrainingSet" />
       <item itemvalue="Application.test" />
       <item itemvalue="Application.arraylist" />
       <item itemvalue="Application.learn_01_test" />
       <item itemvalue="Application.MathM" />
-      <item itemvalue="Application.Finder" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GenerateTrainingSet" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.learn_01_test" />
         <item itemvalue="Application.arraylist" />
         <item itemvalue="Application.MathM" />
-        <item itemvalue="Application.Finder" />
       </list>
     </recent_temporary>
   </component>

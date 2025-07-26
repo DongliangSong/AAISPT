@@ -19,21 +19,21 @@ from AAISPT.Gen_trace.read_traces import read_java_txt
 step_polar_meanND, step_polar_stdND = 17.4, 21
 step_azimuth_meanND, step_azimuth_stdND = 72.4, 84.5
 
-# Directed diffusion
-step_polar_meanDM, step_polar_stdDM = 4.0, 5.5
-step_azimuth_meanDM, step_azimuth_stdDM = 4.9, 7.0
-
-# Directed motion with fast rotation
-step_polar_meanDMR, step_polar_stdDMR = 8, 11
-step_azimuth_meanDMR, step_azimuth_stdDMR = 10, 14
-
-# Tight attachment
+# Tight Attachment
 step_polar_meanTA, step_polar_stdTA = 4.3, 5.7
 step_azimuth_meanTA, step_azimuth_stdTA = 4.9, 6.7
 
-# Tethered rotation
+# Tethered Rotation
 step_polar_meanTR, step_polar_stdTR = 7.0, 9.7
 step_azimuth_meanTR, step_azimuth_stdTR = 12.5, 22.5
+
+# Directed Motion + fast Rotation
+step_polar_meanDMR, step_polar_stdDMR = 8, 11
+step_azimuth_meanDMR, step_azimuth_stdDMR = 10, 14
+
+# Directed Motion
+step_polar_meanDM, step_polar_stdDM = 4.0, 5.5
+step_azimuth_meanDM, step_azimuth_stdDM = 4.9, 7.0
 
 
 class Gen_3_segdata():
@@ -320,7 +320,7 @@ def main_5_class(dir_name, flag, trace_len, num_class):
 if __name__ == '__main__':
     start_time = time.time()
 
-    root = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\SEG\Second batch'
+    root = r'C:\Users\songn\Desktop\Traj'
     paths = [
         os.path.join(root, '2D\SNR03'),
         os.path.join(root, '3D\SNR03'),
@@ -341,4 +341,4 @@ if __name__ == '__main__':
             main_5_class(dir_name=dir_name, flag=flag, trace_len=trace_len, num_class=num_class)
 
     end_time = time.time()
-    print(' Total time consumed : {}s'.format(end_time - start_time))
+    print('Total time consumed : {}s'.format(end_time - start_time))

@@ -2,7 +2,7 @@
 # @Time    : 2024/12/27 16:40
 # @Author  : Dongliang
 
-from Fingerprint_feat_gen import *
+from AAISPT.Feature_extraction.Fingerprint_feat_gen import *
 
 
 def Rolling_extract_feature(traj, dt, step_angle=False, window_ratio=None):

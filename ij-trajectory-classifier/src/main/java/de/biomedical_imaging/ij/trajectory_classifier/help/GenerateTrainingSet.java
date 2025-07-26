@@ -32,8 +32,8 @@ public class GenerateTrainingSet {
         FREE_rotation,
         CONFINED1_TA,
         CONFINED2_TR,
-        ACTIVE_rotation,
-        ACTIVE_norotation
+        ACTIVE_DMR,
+        ACTIVE_DM
     }
 
     private static CentralRandomNumberGenerator r;
@@ -72,21 +72,18 @@ public class GenerateTrainingSet {
             default:
                 break;
         }
-        String path = "D:\\TrajSeg-Cls\\TrajSEG-CLS_V3\\CLS\\Var_LD\\2D\\SNR03\\" + prefix + ".txt";
+        String path = "C:\\Users\\songn\\Desktop\\Traj\\CLS\\2D\\SNR03\\" + prefix + ".txt";
         r = CentralRandomNumberGenerator.getInstance();
 //        r.setSeed(seed);   // Set the seed to ensure the generated random numbers are reproducible.
         int num_class = 3;
+        int dimension = 2;
+        double timelag = 0.02; //s  Time resolution
         double D_ND = 0.22; //[µm^2/s];   Normal diffusion
-//        double D_NDnR = 0.14;  // Normal diffusion and no rotation
         double D_TA = 0.0017; // Tight attachment
         double D_TR = 0.004; // Tether rotation
         double D_DM = 0.08; // Active transport (Directed Motion)
         double D_DMR = 0.05; //  Active transport (Directed Motion) and rotation
-        double timelag = 0.02; //s  Time resolution
-        int dimension = 3;
-
-        //Active transport / drift
-        double angleVelocity = Math.PI / 12.0; //rad/s
+        double angleVelocity = Math.PI / 12.0; // rad/s   For Active transport
 
         SIM_TYPE[] types = SIM_TYPE.values();
         ArrayList<Trajectory> trajectorys = new ArrayList<Trajectory>();
@@ -99,14 +96,14 @@ public class GenerateTrainingSet {
 //                double tracklength = 4;          // For each timelag, so 200 = 4 * 50ms;
                 int numberOfSteps = (int) (tracklength * 1 / timelag);
                 double boundedness = 1 + r.nextDouble() * 5;
-                double alpha = 0.3 + r.nextDouble() * 0.4; // 0.3 - 0.7
+                double alpha = 0.3 + r.nextDouble() * 0.4;    // 0.3 - 0.7
                 AbstractSimulator sim = null;
                 String typestring = "";
                 typestring += type.toString();
                 Trajectory t = null;
-//                double diffusionToNoiseRatio = 1 + r.nextDouble() * 8;     // SNR   wagner's paper parameter
-//                double diffusionToNoiseRatio = 1 + r.nextDouble() * 15;    // SNR   Nikos Hatzakis's paper parameter
-                double diffusionToNoiseRatio = 3;
+//                double diffusionToNoiseRatio = 1 + r.nextDouble() * 8;     // SNR
+//                double diffusionToNoiseRatio = 1 + r.nextDouble() * 15;    // SNR
+                double diffusionToNoiseRatio = 3;     // SNR
                 double sigmaPosNoise = 1;
                 switch (type) {
                     case FREE_rotation:
@@ -126,7 +123,7 @@ public class GenerateTrainingSet {
                         sigmaPosNoise = Math.sqrt(D_TR * timelag) / diffusionToNoiseRatio;
                         break;
 
-                    case ACTIVE_rotation:
+                    case ACTIVE_DMR:
                         double aToDRatio = 1 + r.nextDouble() * 16; // factor R : 1- 17
 //                        double aToDRatio = 5 + r.nextDouble() * 20; // factor R : 5- 25  Nikos Hatzakis's paper parameter
                         double drift = Math.sqrt(aToDRatio * 4 * D_DMR / tracklength);  // speed
@@ -136,15 +133,15 @@ public class GenerateTrainingSet {
                         sigmaPosNoise = Math.sqrt(D_DMR * timelag + drift * drift * timelag * timelag) / diffusionToNoiseRatio;
                         break;
 
-//                    case ACTIVE_norotation:
-//                        aToDRatio = 1 + r.nextDouble() * 16; // factor R : 1- 17
-////                        double aToDRatio = 5 + r.nextDouble() * 20; // factor R : 5- 25  Nikos Hatzakis's paper parameter
-//                        drift = Math.sqrt(aToDRatio * 4 * D_DM / tracklength);  // speed
-//                        sim1 = new ActiveTransportSimulator(drift, angleVelocity, timelag, dimension, numberOfSteps);
-//                        sim2 = new FreeDiffusionSimulator(D_DM, timelag, dimension, numberOfSteps);
-//                        sim = new CombinedSimulator(sim1, sim2);
-//                        sigmaPosNoise = Math.sqrt(D_DM * timelag + drift * drift * timelag * timelag) / diffusionToNoiseRatio;
-//                        break;
+                    case ACTIVE_DM:
+                        aToDRatio = 1 + r.nextDouble() * 16; // factor R : 1- 17
+//                        double aToDRatio = 5 + r.nextDouble() * 20; // factor R : 5- 25  Nikos Hatzakis's paper parameter
+                        drift = Math.sqrt(aToDRatio * 4 * D_DM / tracklength);  // speed
+                        sim1 = new ActiveTransportSimulator(drift, angleVelocity, timelag, dimension, numberOfSteps);
+                        sim2 = new FreeDiffusionSimulator(D_DM, timelag, dimension, numberOfSteps);
+                        sim = new CombinedSimulator(sim1, sim2);
+                        sigmaPosNoise = Math.sqrt(D_DM * timelag + drift * drift * timelag * timelag) / diffusionToNoiseRatio;
+                        break;
 
                     default:
                         break;
@@ -164,31 +161,7 @@ public class GenerateTrainingSet {
         }
 
         System.out.println("Tracks generated");
-//		ExportTools.exportTrajectoriesAsRData(trajectorys, path, timelag);
-//		trajectorys=null;
 
-//		Will not overwrite previous data.
-//        try {02569*4
-//            File file = new File("D:\\data.txt");
-//            if (!file.exists()) {
-//                file.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
-//            }
-//            FileOutputStream fos = new FileOutputStream(file, true);
-//            OutputStreamWriter osw = new OutputStreamWriter(fos);
-//            BufferedWriter bw = new BufferedWriter(osw);
-//            bw.write(String.valueOf(trajectorys));
-//            bw.newLine();
-//            bw.flush();
-//            bw.close();
-//            osw.close();
-//            fos.close();
-//        } catch (FileNotFoundException e1) {
-//            e1.printStackTrace();
-//        } catch (IOException e2) {
-//            e2.printStackTrace();
-//        }
-
-//      Will overwrite previous data.
         try {
             File writeName = new File(path); // Relative path; if it doesn't exist, create a new .txt file.
             if (!writeName.exists()) {
@@ -198,7 +171,7 @@ public class GenerateTrainingSet {
             BufferedWriter out = new BufferedWriter(writer);
 
             out.write('[');
-            for (int i = 0; i < numberOfTracks * num_class; i++) {   // 5 : num class
+            for (int i = 0; i < numberOfTracks * num_class; i++) {
                 out.write(String.valueOf(trajectorys.get(i)));
                 if (i != numberOfTracks * num_class - 1) {
                     out.write(',');

@@ -784,22 +784,23 @@ def process_trajectory(idx, data, dt, step_angle, savepath):
 
 
 if __name__ == '__main__':
-    step_angle = True
-    dt = 0.02
-
-    path = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\CLS\Var_LD_500\SNR05_4-5D'
-    for mode in ['train', 'val', 'test']:
-        savepath = os.path.join(path, 'Feature', mode)
-        if not os.path.exists(savepath):
-            os.mkdir(savepath)
-
-        data = scipy.io.loadmat(os.path.join(path, f'varLD_{mode}.mat'))
-        X, Y = data['data'].squeeze(), data['label'].squeeze()
-        nums = X.shape[0]
-
-        features = Parallel(n_jobs=-1)(
-            delayed(process_trajectory)(i, X[i], dt, step_angle, savepath) for i in range(nums))
-        # TODO: Remember to modify the step_angle parameter in Get_features according to the actual data.
+    print()
+    # step_angle = True
+    # dt = 0.02
+    #
+    # path = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\CLS\Var_LD_500\SNR05_4-5D'
+    # for mode in ['train', 'val', 'test']:
+    #     savepath = os.path.join(path, 'Feature', mode)
+    #     if not os.path.exists(savepath):
+    #         os.mkdir(savepath)
+    #
+    #     data = scipy.io.loadmat(os.path.join(path, f'varLD_{mode}.mat'))
+    #     X, Y = data['data'].squeeze(), data['label'].squeeze()
+    #     nums = X.shape[0]
+    #
+    #     features = Parallel(n_jobs=-1)(
+    #         delayed(process_trajectory)(i, X[i], dt, step_angle, savepath) for i in range(nums))
+    #     # TODO: Remember to modify the step_angle parameter in Get_features according to the actual data.
 
     # path = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\CLS\Endocytosis_NEW\5D'
     # data = scipy.io.loadmat(os.path.join(path, 'resample_aug.mat'))['data'].squeeze()[0]

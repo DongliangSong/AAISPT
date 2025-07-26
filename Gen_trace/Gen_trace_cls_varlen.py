@@ -144,16 +144,16 @@ class Gen_5_clsdata():
                azimuths.reshape((num_perclass * num_class, trace_len, 1))
 
 
-def main_3_class(dir_name, dimension, num_class, trace_len):
+def main_3_class(dir_name, trans_dim, num_class, trace_len):
     """
     For 2/3-D trajectory data, perform the dataset generation step.
 
     :param dir_name: Data file load and save paths.
-    :param dimension: The dimension of the translation coordinate of the trajectory.
+    :param trans_dim: The dimension of the translation coordinate of the trajectory.
     :param num_class: The number of trajectory types.
     :param trace_len: The length of the timeseries data.
     """
-    for mode in ['train', 'val', 'test']:
+    for mode in [ 'test']:
         if mode == 'train':
             path = os.path.join(dir_name, 'training.txt')
         elif mode == 'val':
@@ -162,7 +162,7 @@ def main_3_class(dir_name, dimension, num_class, trace_len):
             path = os.path.join(dir_name, 'test.txt')
 
         # Load the generated motion trajectory.
-        sim_data, sim_length, sim_label = read_varlen(path=path, dimension=dimension, num_class=num_class)
+        sim_data, sim_length, sim_label = read_varlen(path=path, dimension=3, num_class=num_class)
         num_traces = len(sim_data)
         num_perclass = num_traces // num_class
 
@@ -172,8 +172,7 @@ def main_3_class(dir_name, dimension, num_class, trace_len):
 
         dataset = []
         for i in range(num_traces):
-            xyz = sim_data[i]
-            length = xyz.shape[0]
+            xyz = sim_data[i][:, :trans_dim]
             dataset.append(xyz)
 
         label = np.concatenate([i * np.ones((num_perclass, 1)) for i in range(num_class)])
@@ -182,12 +181,12 @@ def main_3_class(dir_name, dimension, num_class, trace_len):
         scipy.io.savemat(os.path.join(dir_name, f'{mode}.mat'), {f'{mode}set': dataset, f'{mode}label': label})
 
 
-def main_5_class(dir_name, dimension, num_class, trace_len):
+def main_5_class(dir_name, trans_dim, num_class, trace_len):
     """
     For 4/5-D trajectory data, perform the dataset generation step.
 
     :param dir_name: Data file load and save paths.
-    :param dimension: The dimension of the translation coordinate of the trajectory.
+    :param trans_dim: The dimension of the translation coordinate of the trajectory.
     :param num_class: The number of trajectory types.
     :param trace_len: The length of the timeseries data.
     """
@@ -200,7 +199,7 @@ def main_5_class(dir_name, dimension, num_class, trace_len):
             path = os.path.join(dir_name, 'test.txt')
 
         # Load the generated motion trajectory.
-        sim_data, sim_length, sim_label = read_varlen(path=path, dimension=dimension, num_class=num_class)
+        sim_data, sim_length, sim_label = read_varlen(path=path, dimension=3, num_class=num_class)
         num_traces = len(sim_data)
         num_perclass = num_traces // num_class
 
@@ -219,7 +218,7 @@ def main_5_class(dir_name, dimension, num_class, trace_len):
 
         dataset = []
         for i in range(num_traces):
-            xyz = sim_data[i]
+            xyz = sim_data[i][:, :trans_dim]
             length = xyz.shape[0]
             dataset.append(np.concatenate((xyz, polars[i, :length], azimuths[i, :length]), axis=1))
 
@@ -231,19 +230,18 @@ def main_5_class(dir_name, dimension, num_class, trace_len):
 
 if __name__ == '__main__':
     start = time.time()
-    trace_len = 500
+    trace_len = 500  # Maximum trajectory length
     num_class = 5
-    dimension = 3
+    dimension = 2
 
-    dir_name = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\CLS\Var_L_500\SNR05'
+    root = r'C:\Users\songn\Desktop\Traj\CLS\2D\SNR03'
 
-    if '2D' in dir_name or '3D' in dir_name:
+    if '2D' in root or '3D' in root:
         num_class = 3
-        main_3_class(dir_name=dir_name, dimension=dimension, num_class=num_class, trace_len=trace_len)
-
-    else:
+        main_3_class(dir_name=root, trans_dim=dimension, num_class=num_class, trace_len=trace_len)
+    elif '4D' in root or '5D' in root:
         num_class = 5
-        main_5_class(dir_name=dir_name, dimension=dimension, num_class=num_class, trace_len=trace_len)
+        main_5_class(dir_name=root, trans_dim=dimension, num_class=num_class, trace_len=trace_len)
 
     end = time.time()
     print('Time taken: {:.2f}s'.format(end - start))

@@ -14,6 +14,27 @@ import scipy
 from AAISPT.Gen_trace.BasicModule import *
 from AAISPT.Gen_trace.read_traces import read_java_txt
 
+# Set rotation parameter
+# Normal diffusion
+step_polar_meanND, step_polar_stdND = 17.4, 21
+step_azimuth_meanND, step_azimuth_stdND = 72.4, 84.5
+
+# Tight attachment
+step_polar_meanTA, step_polar_stdTA = 4.3, 5.7
+step_azimuth_meanTA, step_azimuth_stdTA = 4.9, 6.7
+
+# Tethered rotation
+step_polar_meanTR, step_polar_stdTR = 7.0, 9.7
+step_azimuth_meanTR, step_azimuth_stdTR = 12.5, 22.5
+
+# Directed motion with fast rotation
+step_polar_meanDMR, step_polar_stdDMR = 8, 11
+step_azimuth_meanDMR, step_azimuth_stdDMR = 10, 14
+
+# Directed diffusion
+step_polar_meanDM, step_polar_stdDM = 4.0, 5.5
+step_azimuth_meanDM, step_azimuth_stdDM = 4.9, 7.0
+
 
 def gen_segdata(flag, sim_data):
     """
@@ -155,6 +176,10 @@ if __name__ == '__main__':
     dir_name = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\SEG\Second batch\5D\SNR03'
     flag = 'Fixed length trajectory'
 
+    trace_len = 201
+    num_class = 5
+    dimension = 3
+
     for mode in ['train', 'val', 'test']:
         if mode == 'train':
             path = os.path.join(dir_name, 'training.txt')
@@ -162,10 +187,6 @@ if __name__ == '__main__':
             path = os.path.join(dir_name, 'validation.txt')
         else:
             path = os.path.join(dir_name, 'test.txt')
-
-        trace_len = 201
-        num_class = 5
-        dimension = 3
 
         sim_data, sim_length, sim_label = read_java_txt(
             path=path,
@@ -181,27 +202,6 @@ if __name__ == '__main__':
         Ns = {}
         for key in ['NsND', 'NsTA', 'NsTR', 'NsDMR', 'NsDM']:
             Ns[key] = np.ones(num_perclass, dtype=np.int8) * trace_len
-
-        # Set rotation parameter
-        # Normal diffusion
-        step_polar_meanND, step_polar_stdND = 17.4, 21
-        step_azimuth_meanND, step_azimuth_stdND = 72.4, 84.5
-
-        # Directed diffusion
-        step_polar_meanDM, step_polar_stdDM = 4.0, 5.5
-        step_azimuth_meanDM, step_azimuth_stdDM = 4.9, 7.0
-
-        # Directed motion with fast rotation
-        step_polar_meanDMR, step_polar_stdDMR = 8, 11
-        step_azimuth_meanDMR, step_azimuth_stdDMR = 10, 14
-
-        # Tight attachment
-        step_polar_meanTA, step_polar_stdTA = 4.3, 5.7
-        step_azimuth_meanTA, step_azimuth_stdTA = 4.9, 6.7
-
-        # Tethered rotation
-        step_polar_meanTR, step_polar_stdTR = 7.0, 9.7
-        step_azimuth_meanTR, step_azimuth_stdTR = 12.5, 22.5
 
         ##### Save datasets for CNN
         dataset, position = gen_trace(

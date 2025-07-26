@@ -72,4 +72,4 @@ if __name__ == '__main__':
         data, label = aug_data['data'].squeeze(), aug_data['label'].squeeze()
         final_x = downsample(data=data, threshold_length=ther_len, downsample_factor=factor)
         name = os.path.split(path)[-1]
-        scipy.io.savemat(os.path.join(savepath, 'resample_' + name), {'data': final_x, 'label': label})
+        scipy.io.savemat(os.path.join(savepath, f'resample_{name}'), {'data': final_x, 'label': label})

@@ -81,10 +81,12 @@ def read_java_txt(path, flag, trace_len, dimension, num_classes):
 
 
 if __name__ == '__main__':
+    print()
     path = r'D:\TrajSeg-Cls\TrajSEG-CLS_V3\SEG\Mixed-SNR'
     trace_len = 201
     dimension = 3
     num_classes = 5
+
     # flag = 'Variable length'
     flag = 'Fixed length'
 
