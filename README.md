@@ -44,7 +44,7 @@ umap_learn==0.5.7
 
 # Simplified Usage  
 ## Trajectory Simulation  
-First, use `.\AAISPT\ij-trajectory-classifier\src\main\java\de\biomedical_imaging\ij\trajectory_classifier\help\GenerateTrainingSet.java` to generate 2D/3D trajectories. Set the parameters in the program and run it directly. Parameters include file storage path, number of diffusion modes, dimensionality, time resolution, diffusion coefficient, signal-to-noise ratio, etc.  
+First, use `.\AAISPT\ij-trajectory-classifier\src\main\java\de\biomedical_imaging\ij\trajectory_classifier\help\GenerateTrainingSet.java` to generate 2D/3D trajectories. Set the parameters in the program and run it directly. Parameters include file storage path, number of diffusion modes, dimensionality, time resolution, diffusion coefficient, signal-to-noise ratio, etc. This code is referenced from `https://github.com/thorstenwagner/ij-trajectory-classifier` and has been modified.   
 
 ## Generating Trajectory Segmentation Dataset (under .\AAISPT\Gen_trace) 
 Use `\Gen_trace_seg.py` to generate the trajectory segmentation dataset. The input is the .txt file from the previous step, and the output is {mode}.mat. Note that for segmentation tasks, trajectories of uniform length are sufficient. If needed, you can further use `\Rotation_addnoise.py` to add noise to rotation angles to match angular resolution errors under different signal-to-noise ratios, saving the results as addnoise_{mode}.mat.  
