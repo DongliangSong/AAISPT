@@ -14,11 +14,10 @@ public class GenerateTrainingSet {
     /*
      *  This script generates training trajectories
      *
-     *  There are 4 different diffusion modes:
-     *   - Free diffusion
-     *   - Subdiffusion
-     *   - Confined diffusion
-     *   - Directed motion
+     *  There are 3 or 5 different diffusion modes:
+     *   - Free diffusion/Confined diffusion/Directed motion
+     *   -                       or
+     *   - Free diffusion/CONFINED1_TA/CONFINED2_TR/ACTIVE_DMR/ACTIVE_DM
      *
      *  For each trajectory:
      *  The signal to noise ratio is randomly chosen between 1 and 20
@@ -28,6 +27,8 @@ public class GenerateTrainingSet {
      *  For directed motion, the ratio between active transport and diffusion is randomly chosen between 1 and 18.
      *
      */
+
+    //    If only three conventional diffusion modes are needed, comment out CONFINED2_TR and ACTIVE_DMR.
     enum SIM_TYPE {
         FREE_rotation,
         CONFINED1_TA,
@@ -35,6 +36,7 @@ public class GenerateTrainingSet {
         ACTIVE_DMR,
         ACTIVE_DM
     }
+
 
     private static CentralRandomNumberGenerator r;
 
@@ -82,7 +84,7 @@ public class GenerateTrainingSet {
         double D_TA = 0.0017; // Tight attachment
         double D_TR = 0.004; // Tether rotation
         double D_DM = 0.08; // Active transport (Directed Motion)
-        double D_DMR = 0.05; //  Active transport (Directed Motion) and rotation
+        double D_DMR = 0.05; //  Active transport (Directed Motion) with large rotation
         double angleVelocity = Math.PI / 12.0; // rad/s   For Active transport
 
         SIM_TYPE[] types = SIM_TYPE.values();
